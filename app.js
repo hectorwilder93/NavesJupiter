@@ -102,7 +102,7 @@ function initCanvas(){
                 this.y -= 3; // Movimiento vertical más lento
             }
 
-            //Aplicar el movimiento hhorizontal
+            //Aplicar el movimiento horizontal
             this.x += this.speed;
             //Limites del canvas
             if(this.x < canvaW*.2 -130){
@@ -188,11 +188,11 @@ function initCanvas(){
         renderEnemies(enemies);
     }
 
-    let animateInterval = setInterval(animate, 16)
+    let animateInterval = setInterval(animate, 10)
     //Control de teclado
     const keys = {
         left:false,
-        rigth:false,
+        right:false,
         up:false,
         down:false
     }
@@ -204,7 +204,7 @@ function initCanvas(){
             launcher.direccion = 'left';
             break;
             case 39: //derecha
-            keys.rigth = true;
+            keys.right = true;
             launcher.direccion = 'right';
             break;
             case 38: //arriba
@@ -213,7 +213,7 @@ function initCanvas(){
             break;
             case 40: //Abajo
             keys.down = true;
-            keys.down = 'downArrow';
+            launcher.direccion = 'downArrow';
             break;
             case 32: //espacio
             launcher.misiles.push({
