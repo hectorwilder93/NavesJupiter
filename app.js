@@ -68,6 +68,10 @@ function initCanvas(){
         this.x = canvaW*.5 -25,
         this.w = 100,
         this.h = 100,
+        this.speed = 0,//nueva propiedad para controlar la velocidad
+        this.maxSpeed = 5,//velocidad maxima
+        this.acceleration = .2,//aceleración gradual
+        this.friction= 0.95, //Friccion para frenar la nave
         this.direccion,
         this.bg = "White",
         //Arreglo para balas que van a ser disparadas
@@ -82,15 +86,40 @@ function initCanvas(){
         }
 
         this.render = function(){
+            //Aplicar fricción para reducir la velocidad gradualmente
+            this.speed += this.friction;
+            //Si la velocidad es muy pequeña, detener completamente
+            if(Math.abs(this.speed) < .1) this.speed = 0;
+
+            //Mover la nave segun la velocidad actual
             if(this.direccion === 'left'){
-                this.x -= 5;
+                this.speed = -this.maxSpeed;
             } else if(this.direccion === 'right'){
-                this.x += 5;
+                this.speed = -this.maxSpeed;
             }else if(this.direccion === 'downArrow'){
-                this.y += 5;
+                this.y += 3; // Movimiento vertical más lento
             }else if(this.direccion === 'upArrow'){
-                this.y -= 5;
+                this.y -= 3; // Movimiento vertical más lento
             }
+
+            //Aplicar el movimiento hhorizontal
+            this.x += this.speed;
+            //Limites del canvas
+            if(this.x < canvaW* .2 -130){
+                this.x =  canvaW*.2 -130;
+                this.speed = 0;
+            }
+            if(this.x > canvaW -110){
+                this.x = canvaW -110;
+                this.speed = 0;
+            }
+            if(this.y < canvaH* .2 -80){
+                this.y = canvaH* .2 -80;
+            }
+            if(this.y > canvaH -110){
+                this.y = canvaH -110;
+            }
+
             ctx.fillStyle = this.bg;
             ctx.drawImage(backgroundImage, 10, 10);
             ctx.drawImage(naveImage, this.x, this.y, 100, 90);//Centrar las balas salgan del centro de la nave
