@@ -157,7 +157,7 @@ function initCanvas(){
         //Jugamos con las coordenadas x,y para saber cuando se chocan las naves y se estrellan para acabar el juego.
         this.hitDetectLowerLevel= function (enemy){
             //Si la ubicación de la nave es mayor que 550 entonces sabemos que paso un nivel inferior.
-            if(enemy.y > 550){
+            if(enemy.y > 650){
                 this.gameStatus.over = true;
                 this.gameStatus.message = 'Enemy (s) have passed! '
             }
@@ -188,7 +188,7 @@ function initCanvas(){
         renderEnemies(enemies);
     }
 
-    let animateInterval = setInterval(animate, 10)
+    let animateInterval = setInterval(animate, 12)
     //Control de teclado
     const keys = {
         left:false,
