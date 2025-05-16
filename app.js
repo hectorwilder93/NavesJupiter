@@ -105,7 +105,7 @@ function initCanvas(){
             //Aplicar el movimiento hhorizontal
             this.x += this.speed;
             //Limites del canvas
-            if(this.x < canvaW* .2 -130){
+            if(this.x < canvaW*.2 -130){
                 this.x =  canvaW*.2 -130;
                 this.speed = 0;
             }
@@ -113,8 +113,8 @@ function initCanvas(){
                 this.x = canvaW -110;
                 this.speed = 0;
             }
-            if(this.y < canvaH* .2 -80){
-                this.y = canvaH* .2 -80;
+            if(this.y < canvaH*.2 -80){
+                this.y = canvaH*.2 -80;
             }
             if(this.y > canvaH -110){
                 this.y = canvaH -110;
@@ -188,91 +188,65 @@ function initCanvas(){
         renderEnemies(enemies);
     }
 
-    let animateInterval = setInterval(animate, 6)
-    let left_btn  = document.getElementById('left_btn');
-    let right_btn = document.getElementById('right_btn');
-    let fire_btn  = document.getElementById('fire_btn');
+    let animateInterval = setInterval(animate, 16)
+    //Control de teclado
+    const keys = {
+        left:false,
+        rigth:false,
+        up:false,
+        down:false
+    }
 
-    //Asignamos el movimiento de la tecla flecha izquierda
     document.addEventListener('keydown', function(e){
-        // flecha a la izquierda
-        if(e.keyCode === 37){   
+        switch(e.keyCode){
+            case 37: //izquierda
+            keys.left = true;
             launcher.direccion = 'left';
-            //evita salirnos del lienzo 
-            if(launcher.x < canvaW* .2 -130){
-                launcher.x +=0;
-                launcher.direccion = '';
-            }
-        }
-    });
-
-    //Asignamos movimiento mediante la tecla flecha arriba
-    document.addEventListener('keyup', function(e){
-        if(e.keyCode === 38){
-            launcher.x += 0;
-            launcher.direccion = '';
-        }
-    });
-
-    //Asignamos movimeinto a la tecla flecha derecha
-    document.addEventListener('keydown', function(e){
-        if(e.keyCode === 39){  //tecla hacia abajo
+            break;
+            case 39: //derecha
+            keys.rigth = true;
             launcher.direccion = 'right';
-            if(launcher.x > canvaW - 110){
-                launcher.x -= 0;
-                launcher.direccion = '';
-            }
-         }
-    });
-
-    //asignamos movimiento a la tecla flecha abajo
-    document.addEventListener('keyup', function(e){
-        if(e.keyCode === 40){  //tecla hacia arriba
-           launcher.x -= 0;
-           launcher.direccion = '';
-        }
-    });
-
-    //Asignamos movimiento mediante la tecla flecha arriba
-    document.addEventListener('keydown', function(e){
-        if(e.keyCode === 38){
+            break;
+            case 38: //arriba
+            keys.up = true;
             launcher.direccion = 'upArrow';
-            if(launcher.y < canvaH*.2 -80){
-                launcher.y += 0;
-                launcher.direccion = 0;
-            }            
+            break;
+            case 40: //Abajo
+            keys.down = true;
+            keys.down = 'downArrow';
+            break;
+            case 32: //espacio
+            launcher.misiles.push({
+                x:launcher.x + launcher.w * .5,
+                y:launcher.y,
+                w:3,
+                h:10
+            });
+            break;
+            case 80: //tecla P para reiniciar juego
+            location.reload();
+            break;
         }
     });
 
     document.addEventListener('keyup', function(e){
-        if(e.keyCode === 38){  //cuando no presiona tecla o boton
-            launcher.y -= 0;
-            launcher.direccion = '';             
-        }
-    });
-    
-    document.addEventListener('keydown', function(e){
-        if(e.keyCode === 40){
-            launcher.direccion = 'downArrow';
-            if(launcher.y > canvaH -110){
-                launcher.y -= 0;
-                launcher.direccion = '';
-            }            
-        }
-    });
-
-     document.addEventListener('keyup', function(e){
-        if(e.keyCode === 40){ //tecla arriba
-            launcher.y +=0;
-            launcher.direccion = '';
-            
-        }
-    });
-
-    document.addEventListener('keydown', function(e){
-        //Reiniciar juego con tecla P
-        if(e.keyCode === 80){ 
-            location.reload();
+        switch(e.keyCode) {
+            case 37: //izquierda
+                keys.left = false;
+                if(!keys.rigth) launcher.direccion= '';
+                break;
+            case 39: //derecha
+                keys.right = false;
+                if(!keys.left) launcher.direccion= '';
+                break;               
+            case 38: //arriba
+                keys.up= false;
+                if(!keys.down) launcher.direccion = '';
+                break;
+            case 40: //abajo
+                keys.down = false;
+                if(!keys.up) launcher.direccion = '';
+                break;               
         }
     });
 
@@ -301,20 +275,9 @@ function initCanvas(){
                 w:3,
                 h:10
             });
-    });
-
-    //Lanza los misiles con la tecla espaciadora
-    document.addEventListener('keydown', function(e){
-        if(e.keyCode === 32){
-            launcher.misiles.push({
-                x:launcher.x + launcher.w * .5,
-                y:launcher.y,
-                w:3,
-                h:10
-            });
-        }
-    });
+    });    
 }
+
 //Funcion muestra pagina cuando se ejecuta la funcion de nuestra página
 window.addEventListener('load', function(e){
     initCanvas();
