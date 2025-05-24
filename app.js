@@ -232,6 +232,7 @@ function initCanvas(){
         }
     });
 
+    //Asignamos las teclas para el movimiento
     document.addEventListener('keyup', function(e){
         switch(e.keyCode) {
             case 37: //izquierda
