@@ -1,22 +1,23 @@
 //Creamos la función para inicializar el proyecto
 function initCanvas(){
     let ctx = document.getElementById('my_canvas').getContext('2d');
-    let backgroundImage = new Image();
-    let naveImage       = new Image();
-    let enemiespic1     = new Image();
-    let enemiespic2     = new Image();
+    let backgroundImage = new Image();//Imagen de fondo
+    let naveImage       = new Image();//Nave del jugador
+    let enemiespic1     = new Image();//Nave enemiga 1
+    let enemiespic2     = new Image();//Nave enemiga 2
 
-    backgroundImage.src = "Img/background-pic.jpg";
-    naveImage.src       = "Img/spaceship-pic.png";
+    backgroundImage.src = "Img/background-pic.jpg"; //Asignar una imagen al fondo mediante el atributo source.
+    naveImage.src       = "Img/spaceship-pic.png"; //Asignar una imagen a la nave jugador
     //Imagen de las naves
-    enemiespic1.src     = "Img/enemigo1.png";
-    enemiespic2.src     = "Img/enemigo.png"; 
+    enemiespic1.src     = "Img/enemigo1.png"; //Se asigna la imagen enemiga a una imagen
+    enemiespic2.src     = "Img/enemigo.png"; //se asigna la imagen enemiga a una imagen
     
     //ancho y alto del lienzo
-    let canvaW =ctx.canvas.width;
-    let canvaH = ctx.canvas.height;
+    let canvaW =ctx.canvas.width; //Se asigna el ancho del lienzo
+    let canvaH = ctx.canvas.height; // se asigna el alto del lienzo
 
     //Función retorna la descripción de cada nave enemiga.
+    //Objeto con propiedades de tamaño e imagen
     let enemyTemplate = function(options){
         return {
             id:options.id || '',
@@ -24,7 +25,7 @@ function initCanvas(){
              y:options.y  || '',
              w:options.w  || '',
              h:options.h  || '',
-             image : options.image || enemiespic1
+             image : options.image || enemiespic1 //Asignamos la imagen a dicho objeto
         }
     }
 
@@ -53,7 +54,7 @@ function initCanvas(){
                    new enemyTemplate({ id: "enemy 20", x: 600, y: -200, w: 50, h: 30, image: enemiespic2 })
     ];
 
-    //Mostrar la nave en la pantalla
+    //Mostrar la nave enemiga en la pantalla
     let renderEnemies = function(enemyList){
         for(var i = 0; i < enemyList.length; i++){
             var enemy = enemyList[i];
@@ -66,7 +67,7 @@ function initCanvas(){
     //Logica del jugador
     function launcher(){
         this.y = 500,
-        this.x = canvaW*.5 -25,
+        this.x = canvaW*.5 -25,//Posicion inicial centrada
         this.w = 100,
         this.h = 100,
         this.speed = 0,//nueva propiedad para controlar la velocidad
@@ -76,7 +77,7 @@ function initCanvas(){
         this.direccion,
         this.bg = "White",
         //Arreglo para balas que van a ser disparadas
-        this.misiles = [];
+        this.misiles = [];//Array para misiles disparados
 
         //Mensaje para el jugador cuando pierde su partida
         this.gameStatus = {
@@ -123,7 +124,7 @@ function initCanvas(){
 
             ctx.fillStyle = this.bg;
             ctx.drawImage(backgroundImage, 10, 10);
-            ctx.drawImage(naveImage, this.x, this.y, 100, 90);//Centrar las balas salgan del centro de la nave
+            ctx.drawImage(naveImage, this.x, this.y, 100, 90);//Hace que las balas salgan del centro de la nave
 
             for (var i = 0; i < this.misiles.length;  i++){
                 var m = this.misiles[i];
@@ -235,7 +236,7 @@ function initCanvas(){
         switch(e.keyCode) {
             case 37: //izquierda
                 keys.left = false;
-                if(!keys.rigth) launcher.direccion= '';
+                if(!keys.right) launcher.direccion= '';
                 break;
             case 39: //derecha
                 keys.right = false;
