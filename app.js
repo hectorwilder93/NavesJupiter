@@ -125,13 +125,14 @@ function initCanvas(){
             ctx.fillStyle = this.bg;
             ctx.drawImage(backgroundImage, 10, 10);
             ctx.drawImage(naveImage, this.x, this.y, 100, 90);//Hace que las balas salgan del centro de la nave
-
+             
+            //Dispara los misiles a las naves enemigas
             for (var i = 0; i < this.misiles.length;  i++){
                 var m = this.misiles[i];
                 ctx.fillRect(m.x, m.y -= 5, m.w, m.h);
                 this.hitDetect(m, i); //detecta el golpe de la bala contra el enemigo
 
-                if(m.y <= 0){ //Si la bala pasa los limites del lienzo, retirelo
+                if(m.y <= 0){ //Si la bala llega al limites del lienzo, retirelo
                     this.misiles.splice(i, 1)
                 }
             }
@@ -148,6 +149,7 @@ function initCanvas(){
         this.hitDetect = function(m, mi){
             for(var i = 0; i < enemies.length; i++){
                 var e = enemies[i];
+                //Busca la coordenada respectiva para eliminar al enemigo
                 if(m.x <= e.x + e.w && m.x + m.w >= e.x &&
                     m.y >= e.y && m.y <= e.y + e.h){
                     enemies.splice(i, 1); //Elimina al enemigo al que impacto el misil
@@ -158,7 +160,7 @@ function initCanvas(){
 
         //Jugamos con las coordenadas x,y para saber cuando se chocan las naves y se estrellan para acabar el juego.
         this.hitDetectLowerLevel= function (enemy){
-            //Si la ubicación de la nave es mayor que 550 entonces sabemos que paso un nivel inferior.
+            //Si la ubicación de la nave es mayor que 650 entonces sabemos que paso un nivel inferior.
             if(enemy.y > 650){
                 this.gameStatus.over = true;
                 this.gameStatus.message = 'Enemy (s) have passed! '
@@ -171,6 +173,7 @@ function initCanvas(){
                 this.gameStatus.over = true;
                 this.gameStatus.message = 'You Died!';
             }
+            //Verificando que el enemigo choca con la parte final del lienzo.
             if(this.gameStatus.over === true){
                 clearInterval(animateInterval);
                 ctx.fillStyle = this.gameStatus.fillStyle;
@@ -254,7 +257,7 @@ function initCanvas(){
         }
     });
 
-    //Control botones
+    //Control botones de la pantalla
     left_btn.addEventListener('mousedown', function(e){
         launcher.direccion = 'left';
     });
