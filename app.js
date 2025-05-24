@@ -63,6 +63,7 @@ function initCanvas(){
         }
     }
 
+    //Logica del jugador
     function launcher(){
         this.y = 500,
         this.x = canvaW*.5 -25,
@@ -197,6 +198,7 @@ function initCanvas(){
         down:false
     }
 
+    //Eventos de teclado y botones
     document.addEventListener('keydown', function(e){
         switch(e.keyCode){
             case 37: //izquierda
@@ -267,7 +269,7 @@ function initCanvas(){
         launcher.direccion = '';
     });
 
-    //Funcionalidad a boton de Fire Missile o balas
+    //Funcionalidad a boton de Fire Misiles o balas
     fire_btn.addEventListener('mousedown', function(e){
         launcher.misiles.push({
                 x:launcher.x + launcher.w * .5,
